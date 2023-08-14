@@ -28,29 +28,45 @@
                 android:text="Edit" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btnDel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginHorizontal="10px"
-                android:text="Button" />
+                android:layout_weight="1"
+                android:text="Delete" />
         </LinearLayout>
 
         <EditText
             android:id="@+id/editJudul"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10px"
+            android:enabled="false"
             android:ems="10"
-            android:inputType="text"
-            android:layout_marginHorizontal="10px"/>
+            android:inputType="text" />
 
         <EditText
-            android:id="@+id/editTextTextMultiLine"
+            android:id="@+id/editKonten"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10px"
+            android:enabled="false"
             android:ems="10"
             android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:layout_marginHorizontal="10px"/>
+            android:inputType="textMultiLine" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+            <Button
+                android:id="@+id/btnUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Update" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

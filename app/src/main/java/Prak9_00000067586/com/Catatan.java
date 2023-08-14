@@ -1,6 +1,8 @@
 package Prak9_00000067586.com;
 
-public class Catatan {
+import java.io.Serializable;
+
+public class Catatan implements Serializable {
     private long id;
     private String judul;
     private String notes;
@@ -29,5 +31,10 @@ public class Catatan {
 
     public String getNotes(){
         return this.notes;
+    }
+
+    @Override
+    public String toString() {
+        return getJudul();
     }
 }

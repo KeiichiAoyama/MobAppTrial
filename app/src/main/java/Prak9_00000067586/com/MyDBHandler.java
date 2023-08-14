@@ -16,7 +16,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_JUDUL = "judul";
-    private static final String COLUMN_NOTES = "notes";
+    private static final String COLUMN_NOTES = "note";
 
     public MyDBHandler(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -24,11 +24,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_TABLE_BARANG = "CREATE TABLE "+TABLE_NAME+"("+
+        String CREATE_TABLE_NOTES = "CREATE TABLE "+TABLE_NAME+"("+
                 COLUMN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 COLUMN_JUDUL+" VARCHAR(50) NOT NULL, "+
-                COLUMN_NOTES+" VARCHAR(50) NOT NULL)";
-        sqLiteDatabase.execSQL(CREATE_TABLE_BARANG);
+                COLUMN_NOTES+" TEXT NOT NULL)";
+        sqLiteDatabase.execSQL(CREATE_TABLE_NOTES);
     }
 
     @Override
@@ -44,58 +44,55 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     private String[] allColumns =
-            {COLUMN_ID, COLUMN_NAMABARANG, COLUMN_KATEGORIBARANG, COLUMN_HARGABARANG};
+            {COLUMN_ID, COLUMN_JUDUL, COLUMN_NOTES};
 
-    private Barang cursorToBarang(Cursor cursor){
-        Barang barang = new Barang();
-        barang.setID(cursor.getLong(0));
-        barang.setNamaBarang(cursor.getString(1));
-        barang.setKategoriBarang(cursor.getString(2));
-        barang.setHargaBarang(cursor.getLong(3));
-        return barang;
+    private Catatan cursorToNote(Cursor cursor){
+        Catatan note = new Catatan();
+        note.setID(cursor.getLong(0));
+        note.setJudul(cursor.getString(1));
+        note.setNotes(cursor.getString(2));
+        return note;
     }
 
-    public void createBarang(String nama, String kategori, long harga){
+    public void createNote(String nama, String note){
         ContentValues values = new ContentValues();
-        values.put(COLUMN_NAMABARANG, nama);
-        values.put(COLUMN_KATEGORIBARANG, kategori);
-        values.put(COLUMN_HARGABARANG, harga);
+        values.put(COLUMN_JUDUL, nama);
+        values.put(COLUMN_NOTES, note);
         db.insert(TABLE_NAME, null, values);
     }
 
-    public Barang getBarang(long id){
-        Barang barang = new Barang();
-        Cursor cursor = db.query(TABLE_NAME, allColumns, "_id="+id, null, null, null, null);
+    public Catatan getNote(long id){
+        Catatan note = new Catatan();
+        Cursor cursor = db.query(TABLE_NAME, allColumns, "id="+id, null, null, null, null);
         cursor.moveToFirst();
-        barang = cursorToBarang(cursor);
+        note = cursorToNote(cursor);
         cursor.close();
-        return barang;
+        return note;
     }
 
-    public ArrayList<Barang> getAllBarang(){
-        ArrayList<Barang> daftarBarang = new ArrayList<Barang>();
+    public ArrayList<Catatan> getAllNote(){
+        ArrayList<Catatan> notes = new ArrayList<Catatan>();
         Cursor cursor = db.query(TABLE_NAME, allColumns, null, null, null, null, null);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
-            Barang barang = cursorToBarang(cursor);
-            daftarBarang.add(barang);
+            Catatan note = cursorToNote(cursor);
+            notes.add(note);
             cursor.moveToNext();
         }
         cursor.close();
-        return daftarBarang;
+        return notes;
     }
 
-    public void updateBarang(Barang barang){
-        String filter = "_id="+barang.getID();
+    public void updateNote(Catatan note){
+        String filter = "id="+note.getID();
         ContentValues args = new ContentValues();
-        args.put(COLUMN_NAMABARANG, barang.getNamaBarang());
-        args.put(COLUMN_HARGABARANG, barang.getHargaBarang());
-        args.put(COLUMN_KATEGORIBARANG, barang.getKategoriBarang());
+        args.put(COLUMN_JUDUL, note.getJudul());
+        args.put(COLUMN_NOTES, note.getNotes());
         db.update(TABLE_NAME, args, filter, null);
     }
 
-    public void deleteBarang(long id){
-        String filter = "_id="+id;
+    public void deleteNote(long id){
+        String filter = "id="+id;
         db.delete(TABLE_NAME, filter, null);
     }
 }
